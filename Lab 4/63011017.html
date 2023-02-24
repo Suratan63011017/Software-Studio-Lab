@@ -1,0 +1,155 @@
+<!DOCTYPE html>
+<html>
+  <head></head>
+  <body>
+    <div id="maincontainer"></div>
+    <script>
+      var maincontainer = document.getElementById("maincontainer");
+      var h2 = document.createElement("h2");
+      h2.innerText = "Exercise 04: JavaScript&DOM";
+      maincontainer.appendChild(h2);
+
+      var timeButton = document.createElement("button");
+      timeButton.innerText = "Click me to display Date and Time";
+      maincontainer.appendChild(timeButton);
+
+      var br = document.createElement("div");
+      br.innerHTML = "<br>";
+      maincontainer.appendChild(br);
+
+      var personalInfoButton = document.createElement("div");
+      personalInfoButton.innerText = "Personal Info";
+      personalInfoButton.style.color = "Plum";
+      personalInfoButton.style.textDecoration = "underline";
+      personalInfoButton.style.cursor = "pointer";
+      personalInfoButton.style.width = "fit-content";
+      maincontainer.appendChild(personalInfoButton);
+
+      var personalInfo = document.createElement("div");
+      personalInfo.innerHTML =
+        "<ul><li>Suratan Boonpong, ID: 63011017</li><li>Subject: Software Studio</li><li>Semester: 2/2565</li></ul>";
+      personalInfo.style.display = "none";
+      maincontainer.appendChild(personalInfo);
+
+      personalInfoButton.addEventListener("click", function () {
+        var display = personalInfo.style.display;
+        if (display === "none") {
+          personalInfo.style.display = "block";
+        } else {
+          personalInfo.style.display = "none";
+        }
+      });
+
+      personalInfoButton.addEventListener("mouseenter", function () {
+        personalInfoButton.style.backgroundColor = "yellow";
+        personalInfoButton.style.color = "blue";
+      });
+
+      personalInfoButton.addEventListener("mouseleave", function () {
+        personalInfoButton.style.backgroundColor = "white";
+        personalInfoButton.style.color = "Plum";
+      });
+
+      var h1 = document.createElement("h1");
+      h1.innerText = "Snapshots";
+      maincontainer.appendChild(h1);
+
+      var ul = document.createElement("ul");
+
+      var Fireworks = document.createElement("li");
+      var div1 = document.createElement("div");
+      Fireworks.appendChild(div1);
+      div1.innerText = "Fireworks";
+      div1.style.color = "Blue";
+      div1.style.textDecoration = "underline";
+      div1.style.cursor = "pointer";
+      div1.style.width = "fit-content";
+
+      var Crest = document.createElement("li");
+      var div2 = document.createElement("div");
+      Crest.appendChild(div2);
+      div2.innerText = "Crest";
+      div2.style.color = "Blue";
+      div2.style.textDecoration = "underline";
+      div2.style.cursor = "pointer";
+      div2.style.width = "fit-content";
+
+      var Action = document.createElement("li");
+      var div3 = document.createElement("div");
+      Action.appendChild(div3);
+      div3.innerText = "Action";
+      div3.style.color = "Blue";
+      div3.style.textDecoration = "underline";
+      div3.style.cursor = "pointer";
+      div3.style.width = "fit-content";
+
+      var Buffalo = document.createElement("li");
+      var div4 = document.createElement("div");
+      Buffalo.appendChild(div4);
+      div4.innerText = "Buffalo";
+      div4.style.color = "Blue";
+      div4.style.textDecoration = "underline";
+      div4.style.cursor = "pointer";
+      div4.style.width = "fit-content";
+
+      ul.appendChild(Fireworks);
+      ul.appendChild(Crest);
+      ul.appendChild(Action);
+      ul.appendChild(Buffalo);
+      maincontainer.appendChild(ul);
+
+      var image = document.createElement("img");
+      image.src =
+        "https://www.posn.or.th/wp-content/uploads/2019/11/logo-kmitl.jpg";
+      maincontainer.appendChild(image);
+      image.style.width = "500px";
+
+      div1.addEventListener("click", function () {
+        image.src = "https://ichef.bbci.co.uk/images/ic/1920x1080/p05lqc4f.jpg";
+      });
+      div2.addEventListener("click", function () {
+        image.src =
+          "https://images-platform.99static.com/IiiZeaGE_vfmbqWbzRzxyGdu_cI=/237x445:1452x1660/500x500/top/smart/99designs-contests-attachments/114/114170/attachment_114170291";
+      });
+      div3.addEventListener("click", function () {
+        image.src =
+          "https://productivitysteps.files.wordpress.com/2015/11/action.jpg";
+      });
+      div4.addEventListener("click", function () {
+        image.src =
+          "https://i.natgeofe.com/n/de7be89d-3715-4e89-b83b-ab697ef781b8/thumbnail-cape-buffalo-nationalgeographic_1976203_3x2.jpg";
+      });
+
+      myWorker = new Worker("worker.js");
+      var isWorkerRunning = false;
+
+      function startWorker() {
+        myWorker.postMessage("start");
+        myWorker.onmessage = function (event) {
+          timeButton.innerHTML = event.data.date;
+          timeButton.style.backgroundColor = event.data.color;
+          timeButton.style.position = "fixed";
+          timeButton.style.top = 0;
+          timeButton.style.right = 0;
+          h2.style.marginBottom = "40.92px";
+        };
+        isWorkerRunning = true;
+      }
+
+      function stopWorker() {
+        myWorker.postMessage("stop");
+        isWorkerRunning = false;
+        timeButton.style.position = null;
+        h2.style.marginBottom = "19.92px";
+      }
+
+      timeButton.addEventListener("click", function () {
+        if (isWorkerRunning) {
+          stopWorker();
+        } else {
+          startWorker();
+        }
+      });
+    </script>
+  </body>
+</html>
